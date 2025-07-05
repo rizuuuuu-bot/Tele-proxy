@@ -8,6 +8,6 @@ services:
       - key: SECRET
         value: your_32char_secret_here
       - key: TAG
-        value: your_ad_tag_here
+        value: e2b4f7d91a3c4e79a6b0e8d43f5a278b
       - key: MTP_PORT
         value: "10000"
