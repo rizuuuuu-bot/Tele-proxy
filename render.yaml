@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: telegram-mtproxy
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: SECRET
+        value: your_32char_secret_here
+      - key: TAG
+        value: your_ad_tag_here
+      - key: MTP_PORT
+        value: "10000"
