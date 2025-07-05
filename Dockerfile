@@ -1,14 +1,15 @@
-# 🔹 Base Alpine image
 FROM alpine:latest
 
-# 🔹 Install bash, curl, python3 (for healthcheck)
-RUN apk add --no-cache bash curl python3
+# 🔸 Install bash, curl, python3 and Node.js
+RUN apk add --no-cache bash curl python3 nodejs npm
 
-# 🔹 Copy proxy entry script
+# 🔸 Copy proxy and healthcheck
 COPY docker-entrypoint.sh /
-
-# 🔹 Copy fake HTTP server for Render healthcheck
 COPY healthcheck.py /
+COPY ping.js /
 
-# 🔹 Start both: MTProto Proxy + Healthcheck server
-CMD ["sh", "-c", "/docker-entrypoint.sh & python3 /healthcheck.py"]
+# 🔸 Install Axios
+RUN npm install axios
+
+# 🔸 Start proxy + health server + ping script
+CMD ["sh", "-c", "/docker-entrypoint.sh & python3 /healthcheck.py & node ping.js"]
