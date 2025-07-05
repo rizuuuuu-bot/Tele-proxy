@@ -1,19 +1,22 @@
 FROM alpine:latest
 
-# Install dependencies
+# Install all required packages
 RUN apk add --no-cache bash curl python3 nodejs npm
 
-# Copy files
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./healthcheck.py /healthcheck.py
-COPY ./ping.js /ping.js
-COPY ./package.json /package.json
+# Set working directory (optional but clean)
+WORKDIR /
 
-# Give run permission
+# Copy files
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY healthcheck.py /healthcheck.py
+COPY ping.js /ping.js
+COPY package.json /package.json
+
+# Fix permission
 RUN chmod +x /docker-entrypoint.sh
 
-# Install node dependencies
+# Install dependencies
 RUN npm install
 
-# Start everything
+# Final start command
 CMD ["sh", "-c", "/docker-entrypoint.sh & python3 /healthcheck.py & node ping.js"]
