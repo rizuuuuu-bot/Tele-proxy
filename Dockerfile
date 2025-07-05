@@ -1,15 +1,18 @@
 FROM alpine:latest
 
-# Install bash, curl, python3 and Node.js + npm
+# Install dependencies
 RUN apk add --no-cache bash curl python3 nodejs npm
 
-# Copy scripts
-COPY docker-entrypoint.sh /
-COPY healthcheck.py /
-COPY ping.js /
-COPY package.json /
+# Copy files
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./healthcheck.py /healthcheck.py
+COPY ./ping.js /ping.js
+COPY ./package.json /package.json
 
-# 🔧 Install dependencies from package.json
+# Give run permission
+RUN chmod +x /docker-entrypoint.sh
+
+# Install node dependencies
 RUN npm install
 
 # Start everything
