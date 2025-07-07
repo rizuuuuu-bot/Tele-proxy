@@ -1,8 +1,11 @@
 #!/bin/sh
-mkdir -p /data
-RANDOM=$(printf "%d" "0x$(head -c4 /dev/urandom | od -t x1 -An | tr -d ' ')")
 
-if [ -z "$WORKERS" ]; then WORKERS=2; fi
+set -e
+mkdir -p /data
+
+RANDOM=$(printf "%d" "0x$(head -c4 /dev/urandom | od -t x1 -An | tr -d ' ')")
+[ -z "$WORKERS" ] && WORKERS=2
+[ -z "$MTP_PORT" ] && MTP_PORT=443
 
 echo "#### Telegram Proxy ####"
 
@@ -26,21 +29,22 @@ fi
 
 TAG_CMD=""
 if [ ! -z "$TAG" ]; then
-  TAG_CMD="-P $(echo "$TAG" | tr '[:upper:]' '[:lower:]')"
+  TAG="$(echo "$TAG" | tr '[:upper:]' '[:lower:]')"
+  TAG_CMD="-P $TAG"
 fi
 
 REMOTE_CONFIG=/data/proxy-multi.conf
-curl -s https://core.telegram.org/getProxyConfig -o ${REMOTE_CONFIG} || exit 2
 REMOTE_SECRET=/data/proxy-secret
+
+curl -s https://core.telegram.org/getProxyConfig -o ${REMOTE_CONFIG} || exit 2
 curl -s https://core.telegram.org/getProxySecret -o ${REMOTE_SECRET} || exit 5
 
 EXTERNAL_IP=$(curl -s -4 "https://digitalresistance.dog/myIp")
 INTERNAL_IP=$(ip -4 route get 8.8.8.8 | awk '{print $7; exit}')
 
 echo "[*] Secret: $SECRET"
-echo "[*] tg://proxy?server=${EXTERNAL_IP}&port=443&secret=${SECRET}"
-echo "[*] https://t.me/proxy?server=${EXTERNAL_IP}&port=443&secret=${SECRET}"
+echo "[*] tg://proxy?server=${EXTERNAL_IP}&port=${MTP_PORT}&secret=${SECRET}"
+echo "[*] https://t.me/proxy?server=${EXTERNAL_IP}&port=${MTP_PORT}&secret=${SECRET}"
 
-exec /mtproxy/mtproto-proxy -p ${MTP_PORT:-443} --aes-pwd ${REMOTE_SECRET} --user root ${REMOTE_CONFIG} --nat-info "$INTERNAL_IP:$EXTERNAL_IP" $SECRET_CMD $TAG_CMD
-
-
+echo '[+] Starting proxy...'
+exec /mtproxy/mtproto-proxy -p ${MTP_PORT} --aes-pwd ${REMOTE_SECRET} --user root ${REMOTE_CONFIG} --nat-info "$INTERNAL_IP:$EXTERNAL_IP" $SECRET_CMD $TAG_CMD
