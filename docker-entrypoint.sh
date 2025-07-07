@@ -3,7 +3,7 @@ set -e
 mkdir -p /data
 
 [ -z "$WORKERS" ] && WORKERS=2
-[ -z "$MTP_PORT" ] && MTP_PORT=443
+[ -z "$MTP_PORT" ] && MTP_PORT=8080
 
 SECRET_CMD=""
 if [ ! -z "$SECRET" ]; then
