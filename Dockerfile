@@ -25,4 +25,4 @@ EXPOSE 443
 EXPOSE 8080
 
 
-CMD [ "sh", "-c", "/docker-entrypoint.sh & python3 /healthcheck.py & node ping.js" ]
+CMD ["sh", "-c", "/docker-entrypoint.sh & python3 /healthcheck.py & node ping.js"]
