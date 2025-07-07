@@ -41,4 +41,6 @@ echo "[*] Secret: $SECRET"
 echo "[*] tg://proxy?server=${EXTERNAL_IP}&port=443&secret=${SECRET}"
 echo "[*] https://t.me/proxy?server=${EXTERNAL_IP}&port=443&secret=${SECRET}"
 
-exec /mtproxy/mtproto-proxy --aes-pwd ${REMOTE_SECRET} --user root ${REMOTE_CONFIG} --nat-info "$INTERNAL_IP:$EXTERNAL_IP" $SECRET_CMD $TAG_CMD
+exec /mtproxy/mtproto-proxy -p ${MTP_PORT:-443} --aes-pwd ${REMOTE_SECRET} --user root ${REMOTE_CONFIG} --nat-info "$INTERNAL_IP:$EXTERNAL_IP" $SECRET_CMD $TAG_CMD
+
+
