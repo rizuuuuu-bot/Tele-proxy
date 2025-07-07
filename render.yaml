@@ -11,4 +11,4 @@ services:
         value: 0d56033d722f2e1a95078bebbaf8a0c1
       - key: MTP_PORT
         value: "443"
-
+    healthCheckPath: /healthz
