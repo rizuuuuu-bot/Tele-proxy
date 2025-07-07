@@ -1,17 +1,1 @@
-services:
-  - type: web
-    name: telegram-mtproxy
-    env: docker
-    plan: free
-    autoDeploy: true
-    envVars:
-      - key: SECRET
-        value: e2b4f7d91a3c4e79a6b0e8d43f5a278b
-      - key: TAG
-        value: 0d56033d722f2e1a95078bebbaf8a0c1
-      - key: MTP_PORT
-        value: "443"
-    healthCheckPath: /healthz
-    ports:
-      - 443
-      - 8080
+
