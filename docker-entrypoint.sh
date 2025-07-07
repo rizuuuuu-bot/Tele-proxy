@@ -1,13 +1,9 @@
 #!/bin/sh
-
 set -e
 mkdir -p /data
 
-RANDOM=$(printf "%d" "0x$(head -c4 /dev/urandom | od -t x1 -An | tr -d ' ')")
 [ -z "$WORKERS" ] && WORKERS=2
 [ -z "$MTP_PORT" ] && MTP_PORT=443
-
-echo "#### Telegram Proxy ####"
 
 SECRET_CMD=""
 if [ ! -z "$SECRET" ]; then
