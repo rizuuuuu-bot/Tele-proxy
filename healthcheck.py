@@ -11,7 +11,7 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
-    server_address = ("", 10000)
-    print("Healthcheck server running on port 10000...")
+    server_address = ("", 8080)
+    print("Healthcheck server running on port 8080...")
     httpd = HTTPServer(server_address, HealthCheckHandler)
     httpd.serve_forever()
