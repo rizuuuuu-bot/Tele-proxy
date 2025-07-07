@@ -1,4 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import os
 
 class HealthCheckHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -11,7 +12,8 @@ class HealthCheckHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
-    server_address = ("", 8080)
-    print("Healthcheck server running on port 8080...")
+    PORT = int(os.environ.get("PORT", 8080))
+    server_address = ("", PORT)
+    print(f"Healthcheck server running on port {PORT}...")
     httpd = HTTPServer(server_address, HealthCheckHandler)
     httpd.serve_forever()
