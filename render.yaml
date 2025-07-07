@@ -12,3 +12,6 @@ services:
       - key: MTP_PORT
         value: "443"
     healthCheckPath: /healthz
+    ports:
+      - 443
+      - 8080
