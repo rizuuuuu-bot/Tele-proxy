@@ -22,5 +22,7 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 EXPOSE 443
+EXPOSE 8080
+
 
 CMD [ "sh", "-c", "/docker-entrypoint.sh & python3 /healthcheck.py & node ping.js" ]
